@@ -1,5 +1,6 @@
 package com.helin.rxsample.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,9 @@ import android.view.Window;
 
 import com.helin.rxsample.R;
 import com.helin.rxsample.http.ProgressCancelListener;
+import com.helin.rxsample.util.LogUtils;
+
+import java.lang.ref.WeakReference;
 
 
 /**
@@ -29,17 +33,20 @@ public class SimpleLoadDialog extends Handler{
     private Context context;
     private boolean cancelable;
     private ProgressCancelListener mProgressCancelListener;
+    private final WeakReference<Context> reference;
 
     public SimpleLoadDialog(Context context, ProgressCancelListener mProgressCancelListener,
                             boolean cancelable) {
         super();
-        this.context = context;
+        this.reference = new WeakReference<Context>(context);
         this.mProgressCancelListener = mProgressCancelListener;
         this.cancelable = cancelable;
     }
 
     private void create(){
         if (load == null) {
+            context  = reference.get();
+
             load = new Dialog(context, R.style.loadstyle);
             View dialogView = LayoutInflater.from(context).inflate(
                     R.layout.custom_sload_layout, null);
@@ -49,7 +56,8 @@ public class SimpleLoadDialog extends Handler{
             load.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    mProgressCancelListener.onCancelProgress();
+                    if(mProgressCancelListener!=null)
+                        mProgressCancelListener.onCancelProgress();
                 }
             });
             Window dialogWindow = load.getWindow();
@@ -61,8 +69,15 @@ public class SimpleLoadDialog extends Handler{
         }
     }
 
-    private  void dismiss() {
-        if (load != null&&load.isShowing()) {
+    public void show(){
+        create();
+    }
+
+
+    public  void dismiss() {
+        context  = reference.get();
+        if (load != null&&load.isShowing()&&!((Activity) context).isFinishing()) {
+            String name = Thread.currentThread().getName();
             load.dismiss();
             load = null;
         }
