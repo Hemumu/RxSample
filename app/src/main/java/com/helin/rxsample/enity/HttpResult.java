@@ -6,33 +6,82 @@ package com.helin.rxsample.enity;
  */
 public class HttpResult<T> {
 
-    public T getData() {
-        return data;
+    //用来模仿resultCode和resultMessage
+    private int count;
+    //用来模仿Data
+    private T subjects;
+
+    public int getCount() {
+        return count;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    private int code;
-
-    public int getCode() {
-        return code;
+    public int getStart() {
+        return start;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStart(int start) {
+        this.start = start;
     }
 
-    public String getMessage() {
-        return message;
+    public int getTotal() {
+        return total;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    private String message;
+    public String getTitle() {
+        return title;
+    }
 
-    private T data;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public T getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(T subjects) {
+        this.subjects = subjects;
+    }
+
+    private int start;
+    private int total;
+    private String title;
+
+//    public T getData() {
+//        return data;
+//    }
+//
+//    public void setData(T data) {
+//        this.data = data;
+//    }
+//
+//    private int code;
+//
+//    public int getCode() {
+//        return code;
+//    }
+//
+//    public void setCode(int code) {
+//        this.code = code;
+//    }
+//
+//    public String getMessage() {
+//        return message;
+//    }
+//
+//    public void setMessage(String message) {
+//        this.message = message;
+//    }
+//
+//    private String message;
+//
+//    private T data;
 }

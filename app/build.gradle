@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.helin.rxsample"
-        minSdkVersion 22
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,6 +23,9 @@ repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
 }
+configurations.all {
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,4 +42,11 @@ dependencies {
     compile 'com.orhanobut:hawk:2.0.0-Alpha'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
 
+//    compile 'com.trello:rxlifecycle:1.0'
+
+// If you want to bind to Android-specific lifecycles
+//    compile 'com.trello:rxlifecycle-android:1.0'
+
+// If you want pre-written Activities and Fragments you can subclass as providers
+//    compile 'com.trello:rxlifecycle-components:1.0'
 }

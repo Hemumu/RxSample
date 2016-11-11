@@ -37,6 +37,9 @@ public class ApiException extends RuntimeException{
             case WRONG_PASSWORD:
                 message = "密码错误";
                 break;
+            case 1000:
+                message = "取消dialog";
+                break;
             default:
                 message = "未知错误";
         }

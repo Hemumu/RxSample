@@ -1,12 +1,11 @@
 package com.helin.rxsample.http;
 
-import android.util.Log;
-
+import com.helin.rxsample.base.ActivityLifeCycleEvent;
 import com.helin.rxsample.enity.HttpResult;
 
 import rx.Observable;
 import rx.functions.Action0;
-import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
 /**
  *
@@ -122,10 +121,20 @@ public class HttpUtil {
 
 
 
-    //添加线程管理并订阅
-    public void toSubscribe(Observable ob, final ProgressSubscriber subscriber,String cacheKey,boolean isSave, boolean forceRefresh) {
+
+    /**
+     * 添加线程管理并订阅
+     * @param ob
+     * @param subscriber
+     * @param cacheKey 缓存kay
+     * @param event Activity 生命周期
+     * @param lifecycleSubject
+     * @param isSave 是否缓存
+     * @param forceRefresh 是否强制刷新
+     */
+    public void toSubscribe(Observable ob, final ProgressSubscriber subscriber, String cacheKey, final ActivityLifeCycleEvent event, final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject,boolean isSave, boolean forceRefresh) {
         //数据预处理
-        Observable.Transformer<HttpResult<Object>, Object> result = RxHelper.handleResult();
+        Observable.Transformer<HttpResult<Object>, Object> result = RxHelper.handleResult(event,lifecycleSubject);
         Observable observable = ob.compose(result)
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -157,16 +166,16 @@ public class HttpUtil {
      * 废弃
      * @param <T>
      */
-    private class HttpResultFunc2<T> implements Func1<HttpResult<T>, T> {
-        @Override
-        public T call(HttpResult<T> httpResult) {
-            Log.e("error", httpResult.getData().toString() + "");
-            if (httpResult.getCode() != 0) {
-                throw new ApiException(httpResult.getCode());
-            }
-            return httpResult.getData();
-        }
-    }
+//    private class HttpResultFunc2<T> implements Func1<HttpResult<T>, T> {
+//        @Override
+//        public T call(HttpResult<T> httpResult) {
+//            Log.e("error", httpResult.getData().toString() + "");
+//            if (httpResult.getCode() != 0) {
+//                throw new ApiException(httpResult.getCode());
+//            }
+//            return httpResult.getData();
+//        }
+//    }
 
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
