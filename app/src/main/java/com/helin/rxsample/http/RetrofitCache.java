@@ -52,7 +52,13 @@ public class RetrofitCache {
         if (forceRefresh) {
             return fromNetwork;
         } else {
-            return Observable.concat(fromCache, fromNetwork).first();
+//            return Observable.concat(fromCache, fromNetwork).first();
+            return Observable.concat(fromCache, fromNetwork).takeFirst(new Func1<T, Boolean>() {
+                @Override
+                public Boolean call(T t) {
+                    return t!=null;
+                }
+            });
         }
     }
 

@@ -13,7 +13,6 @@ import android.view.Window;
 
 import com.helin.rxsample.R;
 import com.helin.rxsample.http.ProgressCancelListener;
-import com.helin.rxsample.util.LogUtils;
 
 import java.lang.ref.WeakReference;
 

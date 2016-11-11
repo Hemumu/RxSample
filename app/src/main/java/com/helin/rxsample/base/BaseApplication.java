@@ -2,7 +2,6 @@ package com.helin.rxsample.base;
 
 import android.app.Application;
 
-import com.helin.rxsample.util.LogUtils;
 import com.orhanobut.hawk.Hawk;
 
 /**
@@ -14,6 +13,5 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Hawk.init(this).build();
-        LogUtils.e("oncarea");
     }
 }

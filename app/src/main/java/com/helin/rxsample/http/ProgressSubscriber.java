@@ -31,7 +31,8 @@ public  abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pr
      */
     public void showProgressDialog(){
         if (dialogHandler != null) {
-            dialogHandler.obtainMessage(SimpleLoadDialog.SHOW_PROGRESS_DIALOG).sendToTarget();
+//            dialogHandler.obtainMessage(SimpleLoadDialog.SHOW_PROGRESS_DIALOG).sendToTarget();
+            dialogHandler.show();
         }
     }
 
@@ -45,7 +46,8 @@ public  abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pr
      */
     private void dismissProgressDialog(){
         if (dialogHandler != null) {
-            dialogHandler.obtainMessage(SimpleLoadDialog.DISMISS_PROGRESS_DIALOG).sendToTarget();
+//            dialogHandler.obtainMessage(SimpleLoadDialog.DISMISS_PROGRESS_DIALOG).sendToTarget();
+            dialogHandler.dismiss();;
             dialogHandler=null;
         }
     }
