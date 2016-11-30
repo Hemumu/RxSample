@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dialogHandler = new SimpleLoadDialog(MainActivity.this,null,true);
+        dialogHandler = new SimpleLoadDialog(MainActivity.this, null, true);
         mText = (TextView) findViewById(R.id.text);
         ((Button) findViewById(R.id.btn)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +39,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 //        dialogHandler.obtainMessage(SimpleLoadDialog.DISMISS_PROGRESS_DIALOG).sendToTarget();
@@ -47,6 +52,16 @@ public class MainActivity extends BaseActivity {
     private void doGet() {
         //获取豆瓣电影TOP 100
         Observable ob = Api.getDefault().getTopMovie(0, 100);
+        //嵌套请求
+//        ob.flatMap(new Func1<String, Observable<HttpResult<Subject>>>() {
+//
+//            @Override
+//            public Observable<HttpResult<Subject>> call(String s) {
+//                return Api.getDefault().getUser("aa");
+//            }
+//        });
+
+
         HttpUtil.getInstance().toSubscribe(ob, new ProgressSubscriber<List<Subject>>(this) {
             @Override
             protected void _onError(String message) {
@@ -55,13 +70,12 @@ public class MainActivity extends BaseActivity {
 
             @Override
             protected void _onNext(List<Subject> list) {
-                String str="";
-                for (int i = 0;i < list.size(); i++){
-                    str+="电影名："+list.get(i).getTitle()+"\n";
+                String str = "";
+                for (int i = 0; i < list.size(); i++) {
+                    str += "电影名：" + list.get(i).getTitle() + "\n";
                 }
-                    mText.setText(str);
+                mText.setText(str);
             }
-
         }, "cacheKey", ActivityLifeCycleEvent.DESTROY, lifecycleSubject, false, false);
     }
 }

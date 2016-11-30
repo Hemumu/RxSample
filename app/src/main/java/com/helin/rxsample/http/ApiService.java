@@ -23,4 +23,7 @@ public interface ApiService {
     @GET("top250")
     Observable<HttpResult<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
+    @GET("top250")
+    Observable<HttpResult<Subject>> getUser( @Query("touken") String touken);
+
 }

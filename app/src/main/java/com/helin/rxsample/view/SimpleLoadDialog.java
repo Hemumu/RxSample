@@ -18,9 +18,7 @@ import java.lang.ref.WeakReference;
 
 
 /**
- * 单纯loading加载
  *
- * @author WH
  */
 public class SimpleLoadDialog extends Handler{
 
