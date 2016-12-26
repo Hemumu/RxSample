@@ -28,7 +28,7 @@ public class RxHelper {
      * @return
      */
     @NonNull
-    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final ActivityLifeCycleEvent event , final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
+    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final ActivityLifeCycleEvent event, final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
         return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> sourceObservable) {
@@ -49,12 +49,12 @@ public class RxHelper {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<HttpResult<T>, T> handleResult(final ActivityLifeCycleEvent event,final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
+    public static <T> Observable.Transformer<HttpResult<T>, T> handleResult(final ActivityLifeCycleEvent event, final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
         return new Observable.Transformer<HttpResult<T>, T>() {
             @Override
             public Observable<T> call(Observable<HttpResult<T>> tObservable) {
                 Observable<ActivityLifeCycleEvent> compareLifecycleObservable =
-                        lifecycleSubject.takeFirst(new Func1<ActivityLifeCycleEvent, Boolean>() {
+                            lifecycleSubject.takeFirst(new Func1<ActivityLifeCycleEvent, Boolean>() {
                             @Override
                             public Boolean call(ActivityLifeCycleEvent activityLifeCycleEvent) {
                                 return activityLifeCycleEvent.equals(event);
@@ -69,16 +69,15 @@ public class RxHelper {
                             return Observable.error(new ApiException(result.getCount()));
                         }
                     }
-                }) .takeUntil(compareLifecycleObservable).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread());
+                }).takeUntil(compareLifecycleObservable).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread());
             }
         };
     }
 
     /**
-     * 
+     *
      *
      */
-
 
 
     /**
